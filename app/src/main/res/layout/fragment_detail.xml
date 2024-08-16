@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detail.DetailFragment">
+
+    <TextView
+        android:id="@+id/tvTypeTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Poison"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvTypeOne"
+        app:layout_constraintTop_toBottomOf="@+id/tvTypeOne" />
+
+    <TextView
+        android:id="@+id/tvHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="30"
+        app:layout_constraintEnd_toEndOf="@+id/tvWeight"
+        app:layout_constraintTop_toTopOf="@+id/tvHeightInfo" />
+
+    <TextView
+        android:id="@+id/tvHeightInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:text="Height:"
+        app:layout_constraintStart_toStartOf="@+id/tvWeightInfo"
+        app:layout_constraintTop_toBottomOf="@+id/tvWeightInfo" />
+
+    <TextView
+        android:id="@+id/tvWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:text="100"
+        app:layout_constraintEnd_toEndOf="@+id/tvTypeOne"
+        app:layout_constraintTop_toBottomOf="@+id/tvTypeTwo" />
+
+    <TextView
+        android:id="@+id/tvWeightInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Weight:"
+        app:layout_constraintStart_toStartOf="@+id/tvTypesInfo"
+        app:layout_constraintTop_toTopOf="@+id/tvWeight" />
+
+    <TextView
+        android:id="@+id/tvTypeOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grass"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivPokemonDetailImage"
+        app:layout_constraintTop_toTopOf="@+id/tvTypesInfo" />
+
+    <TextView
+        android:id="@+id/tvPokemonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Bisasam"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTypesInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Types:"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/ivPokemonDetailImage"
+        app:layout_constraintTop_toBottomOf="@+id/ivPokemonDetailImage" />
+
+    <ImageView
+        android:id="@+id/ivPokemonDetailImage"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPokemonName"
+        tools:src="@tools:sample/avatars" />
+</androidx.constraintlayout.widget.ConstraintLayout>

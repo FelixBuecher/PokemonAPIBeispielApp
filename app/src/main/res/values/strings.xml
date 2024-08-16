@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PokemonAPIBeispielApp</string>
+    <string name="title_list">Pokemon</string>
+    <string name="title_favorites">Favorites</string>
+</resources>
