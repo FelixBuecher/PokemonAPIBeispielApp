@@ -37,13 +37,9 @@ class DetailFragment : Fragment() {
             view,
             savedInstanceState
         )
+
         viewModel.currentSelectedPokemon.observe(viewLifecycleOwner) { pokemon ->
-            context?.let {
-                binding.ivPokemonDetailImage.load(
-                    pokemon.sprites.image,
-                    getImageLoader(it)
-                )
-            }
+            binding.ivPokemonDetailImage.load(pokemon.sprites.image)
             binding.tvPokemonName.text = pokemon.name.capitalize()
             binding.tvHeight.text = pokemon.height.toCM()
             binding.tvWeight.text = pokemon.weight.toKG()

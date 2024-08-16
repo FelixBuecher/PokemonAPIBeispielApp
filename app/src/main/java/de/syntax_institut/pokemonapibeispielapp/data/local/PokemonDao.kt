@@ -7,9 +7,13 @@ import androidx.room.Query
 import androidx.room.Update
 import de.syntax_institut.pokemonapibeispielapp.data.model.Pokemon
 
+/**
+ * Database access object um auf die Room database zuzugreifen
+ */
 @Dao
 interface PokemonDao {
 
+    // nicht suspendete Funktionen MÜSSEN livedata zurückliefern
     @Query("SELECT * FROM pokemon")
     fun getAll(): LiveData<List<Pokemon>>
 

@@ -50,6 +50,7 @@ class ListFragment : Fragment() {
             adapter.updateDataset(it)
         }
 
+        // Filter basierend auf eingabe
         binding.etNameFilter.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?,
@@ -77,7 +78,7 @@ class ListFragment : Fragment() {
 
         })
 
-        // Spinner
+        // Spinner zur auswahl für die type filterung
         val filterData = mutableListOf("All")
         listOfTypes.sorted().forEach { type ->
             filterData.add(type.capitalize())
@@ -102,6 +103,7 @@ class ListFragment : Fragment() {
 
         // Loading status
         viewModel.loadingStatus.observe(viewLifecycleOwner) {
+            // Falls wir neue pokemon laden
             if(it == LoadingStatus.LOADING) {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.ivLoadingScreen.visibility = View.VISIBLE
@@ -109,14 +111,17 @@ class ListFragment : Fragment() {
                 viewModel.loadingProgress.observe(viewLifecycleOwner) {
                     binding.progressBar.setProgress((binding.progressBar.max * it).toInt())
                 }
+                // Solange wir laden, verstecken wir die navbar
                 (requireActivity() as MainActivity).bottomNavigationView.visibility = View.GONE
-                context?.let {
+                // Damit das gif animiert wird
+                context?.let { ctx ->
                     binding.ivLoadingScreen.load(
                         R.drawable.simple_pokeball,
-                        getImageLoader(it)
+                        getImageLoader(ctx)
                     )
                 }
             } else if(it == LoadingStatus.DONE) {
+                // ladebildschirm verstecken und navbar wider anzeigen
                 (requireActivity() as MainActivity).bottomNavigationView.visibility = View.VISIBLE
                 binding.ivLoadingScreen.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE

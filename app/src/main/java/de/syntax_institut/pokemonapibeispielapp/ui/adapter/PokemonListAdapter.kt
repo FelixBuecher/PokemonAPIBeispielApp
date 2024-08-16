@@ -19,6 +19,7 @@ import de.syntax_institut.pokemonapibeispielapp.ui.list.ListViewModel
 import de.syntax_institut.pokemonapibeispielapp.util.getTypeColor
 import okhttp3.internal.immutableListOf
 import okhttp3.internal.notifyAll
+import java.util.Locale
 
 class PokemonListAdapter(
     private var dataset: List<Pokemon>,
@@ -35,6 +36,7 @@ class PokemonListAdapter(
         return PokemonViewHolder(binding)
     }
 
+    // Diese funktion ist hauptsächlich dafür, damit wir nicht zum anfang der Liste zurückspringen, wenn wir ein pokemon favoritisiert haben
     @SuppressLint("NotifyDataSetChanged")
     fun updateDataset(dataset: List<Pokemon>) {
         this.dataset = dataset
@@ -60,6 +62,7 @@ class PokemonListAdapter(
 
         holder.binding.cvPokemonListItem.setCardBackgroundColor(getTypeColor(pokemon.types[0].type.name))
 
+        // Um die favorite bälle einzufärben je nachdem ob favorite oder nicht
         val favFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(1.0f) })
         val nonFavFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0.0f) })
 
@@ -69,11 +72,12 @@ class PokemonListAdapter(
             holder.binding.ivFavorite.colorFilter = nonFavFilter
         }
 
+        // Navigation zum detailscreen
         holder.binding.cvPokemonListItem.setOnClickListener {
             detailViewModel.setSelectedPokemon(pokemon)
             holder.itemView.findNavController().navigate(R.id.detailFragment)
         }
-
+        // Falls es favorite ist, dann remove es, und fall nicht favorite adde es
         holder.binding.ivFavorite.setOnClickListener {
             pokemon.favorite = !pokemon.favorite
             if(viewModel is ListViewModel) {

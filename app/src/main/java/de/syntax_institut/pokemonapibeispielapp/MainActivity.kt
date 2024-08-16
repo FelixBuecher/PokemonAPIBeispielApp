@@ -40,12 +40,18 @@ class MainActivity : AppCompatActivity() {
             appBarConfiguration
         )
         bottomNavigationView.setupWithNavController(navController)
+
+        // Actionbar weg, sieht kacke aus wenn da der name vom fragment steht
         supportActionBar?.hide()
 
+
+        // Navbar etwas transparenter machen
         bottomNavigationView.setBackgroundColor(
             Color.argb(160, 100, 100, 100)
         )
 
+
+        // Ab hier ist alles dafür, das die systemUI verschwindet.
         WindowCompat.setDecorFitsSystemWindows(
             window,
             false

@@ -7,6 +7,7 @@ import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 
+// Funktion um gifs zu laden, auf der github page von coil zu finden
 fun getImageLoader(context: Context): ImageLoader {
     return ImageLoader.Builder(context)
             .components {
@@ -43,6 +44,7 @@ fun getTypeColor(type: String): Int {
     }
 }
 
+// Beispiele für extension functions
 fun Int.toCM(): String {
     return "${this * 10} CM"
 }

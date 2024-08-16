@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import de.syntax_institut.pokemonapibeispielapp.data.model.Pokemon
 
 @Database(entities = [Pokemon::class], version = 1)
+// Typeconverter, (Converter.kt) wird unserer Database mitgegeben, damit wir komplexe datentypen konvertieren können!
 @TypeConverters(Converter::class)
 abstract class PokemonDatabase : RoomDatabase() {
     abstract val dao: PokemonDao
