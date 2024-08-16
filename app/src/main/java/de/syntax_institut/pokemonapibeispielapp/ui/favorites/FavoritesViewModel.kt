@@ -2,7 +2,6 @@ package de.syntax_institut.pokemonapibeispielapp.ui.favorites
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.pokemonapibeispielapp.data.Repository
 import de.syntax_institut.pokemonapibeispielapp.data.local.getInstance

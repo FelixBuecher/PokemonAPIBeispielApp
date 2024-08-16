@@ -2,8 +2,6 @@ package de.syntax_institut.pokemonapibeispielapp.ui.list
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.syntax_institut.pokemonapibeispielapp.data.Repository
 import de.syntax_institut.pokemonapibeispielapp.data.local.getInstance
@@ -22,6 +20,7 @@ class ListViewModel(
 
     val pokemonList = repo.pokemonList
     val loadingStatus = repo.loadingStatus
+    val loadingProgress = repo.loadingProgress
 
     fun getAllPokemon() {
         viewModelScope.launch {
@@ -39,4 +38,7 @@ class ListViewModel(
         repo.setType(type)
     }
 
+    fun filterByName(name: String) {
+        repo.filterByName(name)
+    }
 }

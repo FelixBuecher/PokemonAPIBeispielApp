@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvPokemonListItem"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="8dp"
+    app:cardCornerRadius="20dp"
+    app:strokeColor="@color/black"
+    app:strokeWidth="3dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,8 +18,8 @@
 
         <ImageView
             android:id="@+id/ivFavorite"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,10 +50,9 @@
             android:id="@+id/tvPokemonItemTypeOne"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Grass"
-            app:layout_constraintStart_toStartOf="@+id/tvPokemonItemName"
-            app:layout_constraintTop_toBottomOf="@+id/tvPokemonItemName" />
+            app:layout_constraintBottom_toBottomOf="@+id/ivPokemonItemImage"
+            app:layout_constraintStart_toStartOf="@+id/tvPokemonItemName" />
 
         <ImageView
             android:id="@+id/ivPokemonItemImage"
@@ -67,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Bisasam"
-            android:textSize="18sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toEndOf="@+id/ivPokemonItemImage"
             app:layout_constraintTop_toTopOf="@+id/ivPokemonItemImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>

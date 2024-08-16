@@ -14,9 +14,10 @@ class Repository(
 ) {
     private val allPokemon = database.dao.getAll()
     private val selectedType = MutableLiveData("All")
-    val pokemonList = selectedType.switchMap {
-        type -> if(type == "All") database.dao.getAll()
-                else database.dao.filterByType(type)
+    val pokemonList = selectedType.switchMap { type ->
+        if(type.startsWith("NAME:")) database.dao.filterByName(type.drop(5))
+        else if (type == "All") allPokemon
+        else database.dao.filterByType(type)
     }
     val favorites = database.dao.getAllFavorites()
 
@@ -24,15 +25,24 @@ class Repository(
     val loadingStatus: LiveData<LoadingStatus>
         get() = _loadingStatus
 
+    private val _loadingProgress = MutableLiveData(0.0)
+    val loadingProgress: LiveData<Double>
+        get() = _loadingProgress
+
     suspend fun getAllPokemon() {
-        val result = api.service.getAllPokemon(100)
+        val result = api.service.getAllPokemon(550)
+
         if(allPokemon.value?.size != result.results.size) {
             _loadingStatus.postValue(LoadingStatus.LOADING)
-        }
-        result.results.forEach { entry ->
-            if(pokemonList.value?.find { entry.name == it.name } == null) {
-                val pokemon = api.service.getPokemon(entry.name)
-                database.dao.insertPokemon(pokemon)
+            val pokemonToLoad = result.results.size - allPokemon.value!!.size
+            var pokemonAlreadyLoaded = 0
+            result.results.forEach { entry ->
+                if(pokemonList.value?.find { entry.name == it.name } == null) {
+                    val pokemon = api.service.getPokemon(entry.name)
+                    database.dao.insertPokemon(pokemon)
+                    pokemonAlreadyLoaded++
+                    _loadingProgress.postValue(pokemonAlreadyLoaded.toDouble() / pokemonToLoad.toDouble())
+                }
             }
         }
         _loadingStatus.postValue(LoadingStatus.DONE)
@@ -44,5 +54,9 @@ class Repository(
 
     fun setType(type: String) {
         selectedType.value = type
+    }
+
+    fun filterByName(name: String) {
+        selectedType.value = "NAME:$name"
     }
 }

@@ -1,6 +1,8 @@
 package de.syntax_institut.pokemonapibeispielapp.ui.list
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ import de.syntax_institut.pokemonapibeispielapp.MainActivity
 import de.syntax_institut.pokemonapibeispielapp.R
 import de.syntax_institut.pokemonapibeispielapp.databinding.FragmentListBinding
 import de.syntax_institut.pokemonapibeispielapp.ui.adapter.PokemonListAdapter
+import de.syntax_institut.pokemonapibeispielapp.ui.detail.DetailViewModel
 import de.syntax_institut.pokemonapibeispielapp.util.LoadingStatus
 import de.syntax_institut.pokemonapibeispielapp.util.getImageLoader
 import de.syntax_institut.pokemonapibeispielapp.util.listOfTypes
@@ -25,6 +28,7 @@ class ListFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
     private val viewModel: ListViewModel by activityViewModels()
+    private val detailViewModel: DetailViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,13 +43,39 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getAllPokemon()
-        val adapter = PokemonListAdapter(listOf(), viewModel)
+        val adapter = PokemonListAdapter(listOf(), viewModel, detailViewModel)
         binding.rvPokemonList.adapter = adapter
 
-
-        viewModel.pokemonList.observe(viewLifecycleOwner) { pokemonList ->
-            adapter.updateDataset(pokemonList)
+        viewModel.pokemonList.observe(viewLifecycleOwner) {
+            adapter.updateDataset(it)
         }
+
+        binding.etNameFilter.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {}
+
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                s?.let {
+                    if(it.isBlank()) {
+                        viewModel.setType("All")
+                    } else {
+                        viewModel.filterByName(s.toString())
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+
+        })
 
         // Spinner
         val filterData = mutableListOf("All")
@@ -57,6 +87,7 @@ class ListFragment : Fragment() {
             android.R.layout.simple_spinner_item,
             filterData
         )
+
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -72,20 +103,23 @@ class ListFragment : Fragment() {
         // Loading status
         viewModel.loadingStatus.observe(viewLifecycleOwner) {
             if(it == LoadingStatus.LOADING) {
+                binding.progressBar.visibility = View.VISIBLE
+                binding.ivLoadingScreen.visibility = View.VISIBLE
+
+                viewModel.loadingProgress.observe(viewLifecycleOwner) {
+                    binding.progressBar.setProgress((binding.progressBar.max * it).toInt())
+                }
                 (requireActivity() as MainActivity).bottomNavigationView.visibility = View.GONE
-                (requireActivity() as MainActivity).actionBar.hide()
                 context?.let {
                     binding.ivLoadingScreen.load(
                         R.drawable.simple_pokeball,
                         getImageLoader(it)
                     )
                 }
-                binding.ivLoadingScreen.visibility = View.VISIBLE
             } else if(it == LoadingStatus.DONE) {
                 (requireActivity() as MainActivity).bottomNavigationView.visibility = View.VISIBLE
-                (requireActivity() as MainActivity).actionBar.show()
-
                 binding.ivLoadingScreen.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
             }
         }
     }

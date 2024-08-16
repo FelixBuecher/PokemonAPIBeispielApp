@@ -1,14 +1,12 @@
 package de.syntax_institut.pokemonapibeispielapp
 
-import android.os.Build
+import android.graphics.Color
 import android.os.Bundle
-import android.view.View
-import android.view.WindowInsets
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.ActionBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,7 +17,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     lateinit var bottomNavigationView: BottomNavigationView
-    lateinit var actionBar: ActionBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +39,23 @@ class MainActivity : AppCompatActivity() {
             navController,
             appBarConfiguration
         )
-        actionBar = supportActionBar!!
         bottomNavigationView.setupWithNavController(navController)
+        supportActionBar?.hide()
+
+        bottomNavigationView.setBackgroundColor(
+            Color.argb(160, 100, 100, 100)
+        )
+
+        WindowCompat.setDecorFitsSystemWindows(
+            window,
+            false
+        )
+
+        val windowInsetsController =
+            WindowCompat.getInsetsController(window, window.decorView)
+        // Configure the behavior of the hidden system bars.
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
     }
 }

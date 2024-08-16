@@ -10,11 +10,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import de.syntax_institut.pokemonapibeispielapp.databinding.FragmentFavoritesBinding
 import de.syntax_institut.pokemonapibeispielapp.ui.adapter.PokemonListAdapter
+import de.syntax_institut.pokemonapibeispielapp.ui.detail.DetailViewModel
 
 class FavoritesFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoritesBinding
     private val viewModel: FavoritesViewModel by activityViewModels()
+    private val detailViewModel: DetailViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -36,7 +38,7 @@ class FavoritesFragment : Fragment() {
             savedInstanceState
         )
         viewModel.favorites.observe(viewLifecycleOwner) {
-            binding.rvFavorites.adapter = PokemonListAdapter(it, viewModel)
+            binding.rvFavorites.adapter = PokemonListAdapter(it, viewModel, detailViewModel)
         }
     }
 
